@@ -1,0 +1,11 @@
+#!/bin/bash
+links_string=$(curl https://rndmcnlly.github.io/cmpm-121-f25-d1-gallery/ | grep -oP '(?<=<a href=")(.*?)(?=".*View Demo)')
+readarray -t links <<< "$links_string"
+
+cd ~/Documents/proj/Fall25/demo-clip-generator/
+
+for link in "${links[@]}"; do
+    echo "Generating ${link} Clip"
+    js src/clip-generator.js "${link}" ~/Documents/demo-clips
+done
+

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+input_dir="$1"
+output_dir="$2"
+
+
+
+for video in ${input_dir}*.webm; do
+    video_name=$(basename -- $video)
+    output_gif="${output_dir}${video_name%.webm}.gif"
+    #echo ${video}
+    #echo ${output_gif}
+
+    ffmpeg -y -i "$video" -vf palettegen _tmp_palette.png
+    ffmpeg -y -i "$video" -i _tmp_palette.png -filter_complex paletteuse -r 10  "${output_gif}"
+    rm _tmp_palette.png
+done
